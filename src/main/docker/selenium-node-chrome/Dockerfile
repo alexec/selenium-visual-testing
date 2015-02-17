@@ -1,0 +1,1 @@
+FROM selenium/node-chrome:${selenium.version}

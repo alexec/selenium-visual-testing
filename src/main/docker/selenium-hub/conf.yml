@@ -1,0 +1,8 @@
+ports:
+    - 4444
+tag: selenium-grid/hub:${project.version}
+healthChecks:
+  pings: 
+    - url: http://localhost:4444/
+      pattern: You are using grid
+    
