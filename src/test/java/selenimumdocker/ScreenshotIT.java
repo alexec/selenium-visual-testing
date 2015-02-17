@@ -25,6 +25,7 @@ public class ScreenshotIT {
         assert ((TakesScreenshot) driver)
                 .getScreenshotAs(OutputType.FILE)
                 .renameTo(new File(
-                        driver.getCurrentUrl().replaceAll("[^a-z]", "") + "-" + desiredCapabilities.getBrowserName() + ".png"));
+                        driver.getCurrentUrl().replaceAll("[^a-z]", "") + "-"
+                                + desiredCapabilities.getBrowserName() + ".png"));
     }
 }
