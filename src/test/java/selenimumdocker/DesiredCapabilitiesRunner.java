@@ -13,22 +13,20 @@ class DesiredCapabilitiesRunner extends BlockJUnit4ClassRunner {
     private final DesiredCapabilities desiredCapabilities;
     private final WebDriverSupplier webDriverSupplier;
 
-    DesiredCapabilitiesRunner(DesiredCapabilities desiredCapabilities, Class<?> klass, WebDriverSupplier webDriverSupplier) throws InitializationError {
+    DesiredCapabilitiesRunner(DesiredCapabilities desiredCapabilities, Class<?> klass,
+                              WebDriverSupplier webDriverSupplier) throws InitializationError {
         super(klass);
         this.desiredCapabilities = desiredCapabilities;
         this.webDriverSupplier = webDriverSupplier;
     }
 
-    @Override
-    protected Statement withBefores(FrameworkMethod method, Object target, Statement statement) {
-        inject(target, webDriverSupplier.get(desiredCapabilities));
-        inject(target, desiredCapabilities);
-        return super.withBefores(method, target, statement);
-    }
-
     private static void inject(Object target, Object bean) {
+        // #2 a very primitive form of injection, we simple find any field annotated
+        //    with @Inject and if the target has the same class, set it using
+        //    standard Java Reflection
         for (Field field : target.getClass().getDeclaredFields()) {
-            if (field.getAnnotation(Inject.class) != null && field.getType().isAssignableFrom(bean.getClass())) {
+            if (field.getAnnotation(Inject.class) != null &&
+                    field.getType().isAssignableFrom(bean.getClass())) {
                 try {
                     field.setAccessible(true);
                     field.set(target, bean);
@@ -40,12 +38,22 @@ class DesiredCapabilitiesRunner extends BlockJUnit4ClassRunner {
     }
 
     @Override
+    protected Statement withBefores(FrameworkMethod method, Object target, Statement statement) {
+        // #1 inject the web driver and the capabilities into the test class
+        inject(target, webDriverSupplier.get(desiredCapabilities));
+        inject(target, desiredCapabilities);
+        return super.withBefores(method, target, statement);
+    }
+
+    @Override
     protected String getName() {
+        // #3 to make sure that the class has a clean name in the IDE
         return String.format("%s [%s]", super.getName(), desiredCapabilities);
     }
 
     @Override
     protected String testName(final FrameworkMethod method) {
+        // #4 as above, make sure that the class is clearly named in the IDE
         return String.format("%s [%s]", method.getName(), desiredCapabilities);
     }
 }
