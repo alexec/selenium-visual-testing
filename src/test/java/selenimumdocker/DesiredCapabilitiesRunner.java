@@ -21,7 +21,7 @@ class DesiredCapabilitiesRunner extends BlockJUnit4ClassRunner {
     }
 
     private static void inject(Object target, Object bean) {
-        // #2 a very primitive form of injection, we simple find any field annotated
+        // #1 a very primitive form of injection, we simple find any field annotated
         //    with @Inject and if the target has the same class, set it using
         //    standard Java Reflection
         for (Field field : target.getClass().getDeclaredFields()) {
@@ -39,7 +39,7 @@ class DesiredCapabilitiesRunner extends BlockJUnit4ClassRunner {
 
     @Override
     protected Statement withBefores(FrameworkMethod method, Object target, Statement statement) {
-        // #1 inject the web driver and the capabilities into the test class
+        // #2 inject the web driver and the capabilities into the test class
         inject(target, webDriverSupplier.get(desiredCapabilities));
         inject(target, desiredCapabilities);
         return super.withBefores(method, target, statement);
