@@ -1,3 +1,2 @@
 links:
     - selenium-hub:hub
-tag: selenium-grid/node-chrome:${project.version}
