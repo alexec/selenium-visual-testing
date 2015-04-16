@@ -24,6 +24,7 @@
                         <goals>
                             <goal>validate</goal>
                             <goal>clean</goal>
+                            <goal>package</goal>
                             <goal>start</goal>
                             <goal>stop</goal>
                         </goals>
