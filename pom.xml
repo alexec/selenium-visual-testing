@@ -11,6 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <selenium.version>2.45.0</selenium.version>
+        <docker-maven-plugin.version>2.6.0-SNAPSHOT</docker-maven-plugin.version>
     </properties>
     
     <build>
@@ -18,7 +19,7 @@
             <plugin>
                 <groupId>com.alexecollins.docker</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>2.5.0</version>
+                <version>${docker-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -34,7 +35,7 @@
                     <dependency>
                         <groupId>com.alexecollins.docker</groupId>
                         <artifactId>docker-java-orchestration-plugin-boot2docker</artifactId>
-                        <version>2.5.0</version>
+                        <version>${docker-maven-plugin.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
